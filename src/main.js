@@ -7,7 +7,7 @@ import App from './App.vue'
 import Create from './components/Create.vue'
 import Edit from './components/Edit.vue'
 import Index from './components/Index.vue'
-import vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify'
 
 import { Polly } from '@pollyjs/core';
 import XHRAdapter from '@pollyjs/adapter-xhr';

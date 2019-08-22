@@ -15,7 +15,23 @@ ItemRest.get('/items/').intercept((req, res) => {
 ItemRest.post('/items/add').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
 
-  Item.data.push(JSON.parse(req.body));
+  var body = JSON.parse(req.body);
+
+  Item.data.push({
+    _id : Item.data.length + 1,
+    name: body.name,
+    price: body.price
+  });
+
+  res.status(200)
+  res.json(Item.data)
+})
+
+ItemRest.post('/items/del').intercept((req, res) => {
+  // se quiser ver o que chegou no servidor da pra printar a req aqui
+  var body = JSON.parse(req.body);
+
+  Item.data = Item.data.filter((a)=>{return a._id != body._id})
 
   res.status(200)
   res.json(Item.data)
