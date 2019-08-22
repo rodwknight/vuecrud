@@ -14,7 +14,6 @@ ItemRest.get('/items/').intercept((req, res) => {
 
 ItemRest.post('/items/add').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
-
   var body = JSON.parse(req.body);
 
   Item.data.push({
@@ -32,6 +31,19 @@ ItemRest.post('/items/del').intercept((req, res) => {
   var body = JSON.parse(req.body);
 
   Item.data = Item.data.filter((a)=>{return a._id != body._id})
+
+  res.status(200)
+  res.json(Item.data)
+})
+
+
+ItemRest.post('/items/edit').intercept((req, res) => {
+  // se quiser ver o que chegou no servidor da pra printar a req aqui
+  var body = JSON.parse(req.body);
+
+  const index = Item.data.findIndex(item => item._id === body._id)
+  Item.data.splice(index, 1, body)
+
 
   res.status(200)
   res.json(Item.data)

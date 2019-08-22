@@ -5,28 +5,9 @@
       app
     >
       <v-list dense>
-          <v-list-item>
-          <v-list-item-action>
-            <!--v-icon>home</v-icon-->
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title><router-link :to="{name : 'Index'}" >Home</router-link></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item>
-          <v-list-item-action>
-            <!--v-icon>home</v-icon-->
-          </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title><router-link :to="{name : 'Create'}" >Creater</router-link></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-action>
-            <!--v-icon>contact_mail</v-icon-->
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title><router-link :to="{name : 'Edit'}" >Edit</router-link></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -64,27 +45,9 @@
     </v-footer>
   </v-app>
 </template>
-
 <script>
-  export default {
-    props: {
-      source: String,
-    },
-
-    data: () => ({
-      drawer: null,
-    }),
-  }
-</script>
-
-<script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
-  },
   props: {
     source: String
   },
