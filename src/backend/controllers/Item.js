@@ -1,5 +1,5 @@
 import { Polly } from '@pollyjs/core';
-import Item from './models/Items'
+import Item from '../models/Items'
 
 const {server: ItemRest} = new Polly('testing', {
   adapters: ['xhr'],
@@ -30,8 +30,9 @@ ItemRest.post('/items/del').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
   var body = JSON.parse(req.body);
 
-  Item.data = Item.data.filter((a)=>{return a._id != body._id})
-
+  //Item.data = Item.data.filter((a)=>{return a._id != body._id})
+  const i = Item.data.findIndex(item => item._id === body._id)
+  Item.data.splice(i, 1)
   res.status(200)
   res.json(Item.data)
 })

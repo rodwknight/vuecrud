@@ -5,21 +5,22 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    count: 0
+    items: []
   },
   mutations: {
-    incrementCounter(state, payload){
-      state.count += payload
-    }
+    attItem(state, items){
+      state.items = items;
+    },
+
   },
   actions: {
-    incrementAction (context, payload) {
-      context.commit('incrementCounter', payload)
+    attItemAction (context, item){
+      context.commit('attItem', item)
     }
   },
   getters: {
-    counter (state) {
-      return state.count
+    items (state){
+      return state.items
     }
   }
 })

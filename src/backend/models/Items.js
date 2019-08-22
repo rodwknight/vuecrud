@@ -1,3 +1,3 @@
-var Item = {data : []}
+var Items = {data : []}
 
-module.exports = Item;
+module.exports = Items;

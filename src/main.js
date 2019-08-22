@@ -6,17 +6,11 @@ import Vuex from 'vuex'
 import { store } from './store'
 
 import App from './App.vue'
-import Create from './components/Create.vue'
+import Items from './components/Items.vue'
 import vuetify from './plugins/vuetify'
+import './serve'
 
-import { Polly } from '@pollyjs/core';
-import XHRAdapter from '@pollyjs/adapter-xhr';
-import LocalStoragePersister from '@pollyjs/persister-local-storage';
-
-Polly.register(XHRAdapter)
-Polly.register(LocalStoragePersister)
-
-const ItemRest = require('./backend/Item');
+const ItemRest = require('./backend/controllers/Item');
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
@@ -27,9 +21,9 @@ Vue.config.productionTip = false
 
 const routes = [
   {
-    name: 'Create',
-    path: '/create',
-    component: Create
+    name: 'Items',
+    path: '/items',
+    component: Items
   },
 ]
 
@@ -39,15 +33,5 @@ new Vue({
   render: h => h(App),
   vuetify,
   store,
-  router,
-  computed: {
-    items () {
-      return store.state.item
-    }
-  },
-  methods: {
-    addItem () {
-      store.commit('addItem')
-    }
-  }
+  router
 }).$mount('#app')

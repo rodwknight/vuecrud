@@ -1,41 +1,5 @@
-// Create.vue
 <template>
     <v-container>
-            <v-form
-                ref="form"
-                v-model="valid"
-                lazy-validation
-                v-on:submit.prevent="addItem"
-            >
-                <v-text-field
-                v-model="name"
-                :counter="10"
-                :rules="nameRules"
-                label="Item Name"
-                required
-                ></v-text-field>
-
-                <v-text-field
-                v-model="price"
-                label="Item Price"
-                ></v-text-field>
-
-                <v-btn
-                :disabled="!valid"
-                color="success"
-                class="mr-4"
-                @click="addItem"
-                >
-                enviar
-                </v-btn>
-                <v-btn
-                color="error"
-                class="mr-4"
-                @click="reset">
-                Reset Form
-                </v-btn>
-
-            </v-form>
         <v-card class="my-4 mx-auto" max-width="475">
             <v-list flat>
                 <v-subheader>ITEMS</v-subheader>
@@ -87,27 +51,19 @@
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
-            <v-btn color="primary" @click="incrementCounter" class="ml-2">increment counter</v-btn>
-            {{ counter }}
         </v-card>
     </v-container>
 </template>
 <script>
 
 export default {
-    component: {
-        name: 'addItem'
-    },
-    data: () => ({
+    name : "ItemsList",
+        data: () => ({
         valid: true,
-        name : '',
-        price : '',
         nameRules: [
             v => !!v || 'Name is required',
             v => (v && v.length <= 10) || 'Name must be less than 10 characters',
         ],
-        email: '',
-        items: [],
         dialog: false,
         itemEdit: {}
     }),
@@ -115,46 +71,31 @@ export default {
         this.fetchItems();
     },
     methods: {
-        reset () {
-            this.name = ''
-            this.price = ''
-        },
-        addItem() {
-            let uri = 'http://localhost:8080/items/add';
-            this.axios.post(uri, {name : this.name, price: this.price}).then((response) => {
-                this.items = response.data;
-                console.log(store);
-            });
-
-        },
         fetchItems(){
             let uri = 'http://localhost:8080/items';
             this.axios.get(uri).then((response) => {
-                this.items = response.data;
+                this.$store.dispatch('attItemAction', response.data)
             })
         },
         delItem(id){
             let uri = "http://localhost:8080/items/del";
             this.axios.post(uri, {_id : id}).then((response) => {
-                this.items = response.data;
+                this.$store.dispatch('attItemAction', response.data)
             });
         },
         editItem(){
             let uri = "http://localhost:8080/items/edit";
             this.axios.post(uri, this.itemEdit).then((response) => {
-                this.items = response.data;
+                this.$store.dispatch('attItemAction', response.data)
             });
         },
         dataEdit(item){
             this.itemEdit = item;
-        },
-        incrementCounter () {
-            this.$store.dispatch('incrementAction', 1)
         }
     },
     computed: {
-        counter () {
-            return this.$store.getters.counter
+        items () {
+            return this.$store.getters.items
         }
     }
 }
