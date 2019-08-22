@@ -68,26 +68,14 @@ export default {
         itemEdit: {}
     }),
     created: function(){
-        this.fetchItems();
+        this.$store.dispatch('fetchItems');
     },
     methods: {
-        fetchItems(){
-            let uri = 'http://localhost:8080/items';
-            this.axios.get(uri).then((response) => {
-                this.$store.dispatch('attItemAction', response.data)
-            })
-        },
         delItem(id){
-            let uri = "http://localhost:8080/items/del";
-            this.axios.post(uri, {_id : id}).then((response) => {
-                this.$store.dispatch('attItemAction', response.data)
-            });
+            this.$store.dispatch('delItemAction', {_id : id})
         },
         editItem(){
-            let uri = "http://localhost:8080/items/edit";
-            this.axios.post(uri, this.itemEdit).then((response) => {
-                this.$store.dispatch('attItemAction', response.data)
-            });
+            this.$store.dispatch('editItemAction', this.itemEdit)
         },
         dataEdit(item){
             this.itemEdit = item;

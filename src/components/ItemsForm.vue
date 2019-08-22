@@ -49,10 +49,7 @@ export default {
             this.price = ''
         },
         addItem() {
-            let uri = 'http://localhost:8080/items/add';
-            this.axios.post(uri, {name : this.name, price: this.price}).then((response) => {
-                this.$store.dispatch('attItemAction', response.data)
-            });
+            this.$store.dispatch('addItemAction', {name : this.name, price: this.price})
         }
     }
 }
