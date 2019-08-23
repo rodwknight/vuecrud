@@ -2,15 +2,19 @@
   <v-app id="inspire">
     <v-navigation-drawer
       v-model="drawer"
-      app
-    >
-      <v-list dense>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title><router-link :to="{name : 'Items'}" >Items</router-link></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      app >
+        <v-list dense>
+            <v-list-item :to="{name : 'Items'}" >
+                <v-list-item-action>
+                    <v-icon>home</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Items
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
     </v-navigation-drawer>
 
     <v-app-bar
@@ -19,7 +23,7 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>VueCRUD</v-toolbar-title>
     </v-app-bar>
 
     <v-content>

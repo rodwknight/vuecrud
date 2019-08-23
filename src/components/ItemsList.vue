@@ -1,84 +1,85 @@
-<template>
-    <v-container>
-        <v-card class="my-4 mx-auto" max-width="475">
-            <v-list flat>
-                <v-subheader>ITEMS</v-subheader>
-                <v-list-item-group color="primary">
-                    <v-list-item v-for="(item, i) in items" :key="i" >
-                    <v-list-item-content>
-                        <v-list-item-title v-text="item.name"></v-list-item-title>
-                        <v-list-item-subtitle v-text="item.price"></v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-dialog v-model="dialog" persistent max-width="600px">
-                        <template v-slot:activator="{ on }">
-                            <v-btn color="primary" dark v-on="on" @click="dataEdit(item)">edit</v-btn>
-                        </template>
-                        <v-card>
-                            <v-card-title>
-                                <span class="headline">Editar Item</span>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-container>
-                                    <v-row>
-                                        <v-col cols="12" sm="12" md="12">
-                                            <v-text-field
-                                                v-model="itemEdit.name"
-                                                :counter="10"
-                                                :rules="nameRules"
-                                                label="Item Name"
-                                                required
-                                                >
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="12">
-                                            <v-text-field
-                                                v-model="itemEdit.price"
-                                                label="Item Price"
-                                                >
-                                            </v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-                            </v-card-text>
-                            <v-card-actions>
-                                <div class="flex-grow-1"></div>
-                                <v-btn color="blue darken-1" text @click="dialog = false">Fechar</v-btn>
-                                <v-btn color="blue darken-1" text @click="editItem">Salvar</v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
-                    <v-btn color="primary" @click="delItem(item._id)" class="ml-2">Del</v-btn>
-                    </v-list-item>
-                </v-list-item-group>
-            </v-list>
-        </v-card>
-    </v-container>
+<template >
+    <v-data-table
+    :headers="headers"
+    :items="items"
+    sort-by="_id"
+    class="elevation-1">
+        <template v-slot:top>
+            <v-toolbar flat color="white">
+                <v-toolbar-title>Meus Items</v-toolbar-title>
+                <v-divider
+                    class="mx-4"
+                    inset
+                    vertical>
+                </v-divider>
+                <div class="flex-grow-1"></div>
+                <v-dialog v-model="dialog" max-width="500px">
+                    <template v-slot:activator="{ on }">
+                        <v-btn color="primary" dark class="mb-2" v-on="on" @click="dataAdd">Novo Item</v-btn>
+                    </template>
+                    <ItemsForm />
+                </v-dialog>
+            </v-toolbar>
+        </template>
+        <template v-slot:item.action="{ item }" >
+            <v-icon
+                small
+                class="mr-2"
+                @click="dataEdit(item._id)">
+                    edit
+            </v-icon>
+            <v-icon
+                small
+                @click="delItem(item._id)">
+                    delete
+            </v-icon>
+        </template>
+    </v-data-table>
 </template>
 <script>
 
+import ItemsForm from './ItemsForm'
+import {mapActions} from 'vuex'
+
 export default {
     name : "ItemsList",
-        data: () => ({
+    components : {
+        ItemsForm
+    },
+    data: () => ({
         valid: true,
+        dialog: false,
         nameRules: [
             v => !!v || 'Name is required',
             v => (v && v.length <= 10) || 'Name must be less than 10 characters',
         ],
-        dialog: false,
-        itemEdit: {}
+        curr_id: -1,
+        headers: [
+        {
+          text: 'Nome Item',
+          align: 'left',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Preço', value: 'price' },
+        { text: 'Cor', value: 'color' },
+        { text: 'Actions', value: 'action', sortable: false },
+      ],
     }),
     created: function(){
         this.$store.dispatch('fetchItems');
     },
     methods: {
+        ...mapActions(['changeID', 'changeName', 'changePrice', 'changeColor']),
         delItem(id){
             this.$store.dispatch('delItemAction', {_id : id})
         },
-        editItem(){
-            this.$store.dispatch('editItemAction', this.itemEdit)
+        dataEdit (item) {
+            this.changeID(item)
+            this.dialog = true
         },
-        dataEdit(item){
-            this.itemEdit = item;
+        dataAdd () {
+            this.changeID(-1)
         }
     },
     computed: {

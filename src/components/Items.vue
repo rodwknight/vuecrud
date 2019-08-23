@@ -1,20 +1,18 @@
 // Create.vue
-<template>
+<template v-slot:activator="{ on }">
     <v-container>
-            <ItemsForm />
             <ItemsList />
     </v-container>
 </template>
 <script>
 
 import ItemsList from './ItemsList'
-import ItemsForm from './ItemsForm'
 
 export default {
     name: 'Items',
+    dialog: false,
     components: {
-        ItemsList,
-        ItemsForm
+        ItemsList
     }
 }
 </script>
