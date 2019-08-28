@@ -8,13 +8,13 @@
   -ms-transition: all 250ms linear!important;
   -o-transition: all 250ms linear!important;
   transition: all 250ms linear!important;
-  margin-top: 0px;
+  top: -99px!important;
 }
-.v-app-bar--fixed.v-app-bar--is-scrolled {
+#inspire .v-app-bar--fixed.v-app-bar--is-scrolled {
   -webkit-transition: all 250ms linear!important;
   -moz-transition: all 250ms linear!important;
   -ms-transition: all 250ms linear!important;
   -o-transition: all 250ms linear!important;
   transition: all 250ms linear!important;
-  margin-top: -99px!important;
+  top: 0px!important;
 }

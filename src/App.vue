@@ -3,7 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       fixed
-      clipped>
+      temporary>
         <v-list dense>
             <v-list-item :to="{name : 'Items'}" >
                 <v-list-item-action>
@@ -22,10 +22,11 @@
         height='72'
         color="#000"
         dark
-        prominent
         floating
-        class="app-bar_home">
-
+        class="app-bar_home"
+        clipped
+        elevate-on-scroll
+        >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>VueCRUD</v-toolbar-title>
         <div class="flex-grow-1"></div>
