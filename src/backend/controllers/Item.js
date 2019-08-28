@@ -6,18 +6,18 @@ const {server: ItemRest} = new Polly('testing', {
   persister: 'local-storage'
 });
 
-ItemRest.get('/items/').intercept((req, res) => {
+ItemRest.get('/items').intercept((req, res) => {
   res.status(200) // coloca o status que você quer retornar
   res.json(Item.data) // o retorno da API
 })
 
-ItemRest.post('/items/get').intercept((req, res) => {
+ItemRest.get('/items/:_id').intercept((req, res) => {
   res.status(200) // coloca o status que você quer retornar
-  var arr = Item.data.filter((a) => { return a._id == req.body});
+  var arr = Item.data.filter((a) => { return a._id == req.params._id});
   res.json(arr) // o retorno da API
 })
 
-ItemRest.post('/items/add').intercept((req, res) => {
+ItemRest.post('/items').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
   var body = JSON.parse(req.body);
 
@@ -32,19 +32,17 @@ ItemRest.post('/items/add').intercept((req, res) => {
   res.json(Item.data)
 })
 
-ItemRest.post('/items/del').intercept((req, res) => {
+ItemRest.delete('/items/:_id').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
-  var body = JSON.parse(req.body);
-
-  //Item.data = Item.data.filter((a)=>{return a._id != body._id})
-  const i = Item.data.findIndex(item => item._id === body._id)
+  const i = Item.data.findIndex(item => item._id === req.params._id)
   Item.data.splice(i, 1)
   res.status(200)
   res.json(Item.data)
 })
-ItemRest.post('/items/edit').intercept((req, res) => {
+ItemRest.put('/items').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
   var body = JSON.parse(req.body);
+
   const index = Item.data.findIndex(item => item._id === body._id)
   Item.data.splice(index, 1, body)
   res.status(200)

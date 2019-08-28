@@ -2,9 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
+export const itemStore = axios => ({
   state: {
     items: [],
     item: {
@@ -12,7 +13,7 @@ export const store = new Vuex.Store({
       price: '',
       name: '',
       _id: -1
-    },
+    }
   },
   mutations: {
     attItem(state, items){
@@ -32,45 +33,38 @@ export const store = new Vuex.Store({
     changeColor({commit, state}, color){
       commit('currItem', {...state.item, color})
     },
-    changeID({commit}, _id){
+    async changeID({commit}, _id){
       commit('currItem', { name: '', price: '', color: '', _id: _id})
-      let uri = "http://localhost:8080/items/get"
+      let uri = "http://localhost:8080/items/"+_id
       if (_id > 0){
-        axios.post(uri, _id).then((response) =>{
-          commit('currItem', response.data[0])
-        });
+        const response = await axios.get(uri)
+        commit('currItem', response.data[0])
       }
     },
-    fetchItems({dispatch}){
+    async fetchItems({commit}){
       let uri = 'http://localhost:8080/items';
-      axios.get(uri).then((response) => {
-          dispatch('attItemAction', response.data)
-        })
+      const response = await axios.get(uri)
+      commit('attItem', response.data)
     },
-    attItemAction (context, item){
-      context.commit('attItem', item)
+    async addItemAction ({state, commit}){
+      let uri = 'http://localhost:8080/items/';
+      const response = await axios.post(uri, state.item)
+      commit('attItem', response.data)
     },
-    addItemAction ({state, commit}){
-      let uri = 'http://localhost:8080/items/add';
-      axios.post(uri, state.item).then((response) => {
-        commit('attItem', response.data)
-      });
+    async editItemAction ({state, commit}){
+      let uri = "http://localhost:8080/items/";
+      const response = await axios.put(uri, state.item)
+      commit('attItem', response.data)
     },
-    editItemAction ({state , commit}){
-      let uri = "http://localhost:8080/items/edit";
-      axios.post(uri, state.item).then((response) => {
-        commit('attItem', response.data)
-      });
-    },
-    delItemAction (context, item){
-      let uri = "http://localhost:8080/items/del";
-      axios.post(uri, item).then((response) => {
-          context.commit('attItem', response.data)
+    delItemAction ({commit}, item){
+      let uri = "http://localhost:8080/items/"+item._id;
+      axios.delete(uri).then((response) => {
+          commit('attItem', response.data)
       });
     },
     getItemAction ({state, commit}){
-      let uri = "http://localhost:8080/items/get";
-      axios.post(uri, state.item._id).then((response) =>{
+      let uri = "http://localhost:8080/items/"+state.item._id;
+      axios.get(uri).then((response) =>{
         commit('currItem', response.data[0])
       });
     }
@@ -84,3 +78,6 @@ export const store = new Vuex.Store({
     }
   }
 })
+
+
+export const store = new Vuex.Store(itemStore(axios))

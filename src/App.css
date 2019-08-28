@@ -1,0 +1,20 @@
+.app-bar_home{
+  justify-content: space-between;
+  align-items: center;
+}
+.v-app-bar--fixed {
+  -webkit-transition: all 250ms linear!important;
+  -moz-transition: all 250ms linear!important;
+  -ms-transition: all 250ms linear!important;
+  -o-transition: all 250ms linear!important;
+  transition: all 250ms linear!important;
+  margin-top: 0px;
+}
+.v-app-bar--fixed.v-app-bar--is-scrolled {
+  -webkit-transition: all 250ms linear!important;
+  -moz-transition: all 250ms linear!important;
+  -ms-transition: all 250ms linear!important;
+  -o-transition: all 250ms linear!important;
+  transition: all 250ms linear!important;
+  margin-top: -99px!important;
+}

@@ -1,17 +1,25 @@
 <template >
+    <v-card>
+    <v-card-title>
+      Meu Items
+      <div class="flex-grow-1"></div>
+      <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
     <v-data-table
-    :headers="headers"
-    :items="items"
-    sort-by="_id"
-    class="elevation-1">
+        :headers="headers"
+        :items="items"
+        :search="search"
+        :sort-by="['name', 'price']"
+        :sort-desc="[false, true]"
+        class="elevation-1">
         <template v-slot:top>
             <v-toolbar flat color="white">
-                <v-toolbar-title>Meus Items</v-toolbar-title>
-                <v-divider
-                    class="mx-4"
-                    inset
-                    vertical>
-                </v-divider>
                 <div class="flex-grow-1"></div>
                 <v-dialog v-model="dialog" max-width="500px">
                     <template v-slot:activator="{ on }">
@@ -35,6 +43,7 @@
             </v-icon>
         </template>
     </v-data-table>
+    </v-card>
 </template>
 <script>
 
@@ -47,6 +56,7 @@ export default {
         ItemsForm
     },
     data: () => ({
+        search: '',
         valid: true,
         dialog: false,
         nameRules: [
