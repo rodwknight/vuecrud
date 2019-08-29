@@ -5,4 +5,9 @@ import LocalStoragePersister from '@pollyjs/persister-local-storage';
 Polly.register(XHRAdapter)
 Polly.register(LocalStoragePersister)
 
-export default { Polly }
+const { server: testServer } = new Polly('testing', {
+  adapters: ['xhr'],
+  persister: 'local-storage'
+});
+
+export const server = testServer

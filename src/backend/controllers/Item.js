@@ -1,23 +1,18 @@
-import { Polly } from '@pollyjs/core';
 import Item from '../models/Items'
+import {server} from '../../serve'
 
-const {server: ItemRest} = new Polly('testing', {
-  adapters: ['xhr'],
-  persister: 'local-storage'
-});
-
-ItemRest.get('/items').intercept((req, res) => {
+server.get('/items').intercept((req, res) => {
   res.status(200) // coloca o status que você quer retornar
   res.json(Item.data) // o retorno da API
 })
 
-ItemRest.get('/items/:_id').intercept((req, res) => {
+server.get('/items/:_id').intercept((req, res) => {
   res.status(200) // coloca o status que você quer retornar
   var arr = Item.data.filter((a) => { return a._id == req.params._id});
   res.json(arr) // o retorno da API
 })
 
-ItemRest.post('/items').intercept((req, res) => {
+server.post('/items').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
   var body = JSON.parse(req.body);
 
@@ -32,14 +27,14 @@ ItemRest.post('/items').intercept((req, res) => {
   res.json(Item.data)
 })
 
-ItemRest.delete('/items/:_id').intercept((req, res) => {
+server.delete('/items/:_id').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
   const i = Item.data.findIndex(item => item._id === req.params._id)
   Item.data.splice(i, 1)
   res.status(200)
   res.json(Item.data)
 })
-ItemRest.put('/items').intercept((req, res) => {
+server.put('/items').intercept((req, res) => {
   // se quiser ver o que chegou no servidor da pra printar a req aqui
   var body = JSON.parse(req.body);
 

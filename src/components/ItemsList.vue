@@ -48,7 +48,8 @@
 <script>
 
 import ItemsForm from './ItemsForm'
-import {mapActions} from 'vuex'
+import {createNamespacedHelpers} from 'vuex'
+const {mapActions, mapGetters} = createNamespacedHelpers('items')
 
 export default {
     name : "ItemsList",
@@ -77,12 +78,12 @@ export default {
       ],
     }),
     created: function(){
-        this.$store.dispatch('fetchItems');
+        this.$store.dispatch('items/fetchItems');
     },
     methods: {
         ...mapActions(['changeID', 'changeName', 'changePrice', 'changeColor']),
         delItem(id){
-            this.$store.dispatch('delItemAction', {_id : id})
+            this.$store.dispatch('items/delItemAction', {_id : id})
         },
         dataEdit (item) {
             this.changeID(item)
@@ -93,9 +94,7 @@ export default {
         }
     },
     computed: {
-        items () {
-            return this.$store.getters.items
-        }
+        ...mapGetters({items: 'items'})
     }
 }
 </script>

@@ -43,7 +43,9 @@
     </v-card>
 </template>
 <script>
-import {mapActions, mapState} from 'vuex'
+import {createNamespacedHelpers} from 'vuex'
+
+const {mapActions, mapState, mapGetters} = createNamespacedHelpers('items')
 
 export default {
     name: 'ItemsForm',
@@ -68,15 +70,16 @@ export default {
             this.dialog = false
         },
         addItem() {
-            if (this.$store.getters.item._id === -1) {
-                this.$store.dispatch('addItemAction')
+            if (this._item._id === -1) {
+                this.$store.dispatch('items/addItemAction')
             } else {
-                this.$store.dispatch('editItemAction')
+                this.$store.dispatch('items/editItemAction')
             }
         }
     },
     computed: {
         ...mapState(['item']),
+        ...mapGetters({_item: 'item'}),
         formTitle () {
             return this.currId === -1 ? 'Novo Item' : 'Editar Item'
         }
