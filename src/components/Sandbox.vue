@@ -46,9 +46,9 @@ export default {
         dialog : false,
     }),
     methods: {
-        ...mapActions(['changeEmail', 'changeToken']),
+        ...mapActions(['changeEmail', 'changeToken', 'sessionStart']),
         submitAuth() {
-            this.$store.dispatch('sandbox/addAuthAction')
+            this.sessionStart()
         }
     },
     computed: {

@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 import Vuex from 'vuex'
-import { store } from './store'
+import { store } from './store/index'
+import cors from 'cors'
 
 import router from './routes.js'
 import App from './App.vue'
@@ -16,6 +17,7 @@ Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 Vue.use('/items', ItemRest)
 Vue.use('/sandbox', SandboxRest)
+Vue.use(cors)
 
 Vue.config.productionTip = false
 

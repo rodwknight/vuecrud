@@ -1,4 +1,4 @@
-import {server} from  '../../serve'
+/*import {server} from  '../../serve'
 import Sandbox from '../models/Sandbox'
 
 server.get('/auth').intercept((req, res) => {
@@ -14,4 +14,4 @@ server.put('/auth').intercept((req, res) => {
   res.json(Sandbox.data)
 })
 
-server.stop()
+server.stop()*/
